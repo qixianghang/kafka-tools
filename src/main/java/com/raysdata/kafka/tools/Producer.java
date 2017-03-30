@@ -35,20 +35,15 @@ public class Producer {
 	 * @param topic
 	 * 		kafka topic
 	 * @param args
-	 * 		动态参数：[0]kafka clientId，数据类型为String，可选，默认为producer;
-	 * 				 [1]证书密码，数据类型为String，可选，如需修改默认密码请携带此参数;
+	 * 		动态参数：[0]kafka clientId，可选，默认为producer,若为null则取默认值;
 	 * 				
 	 */
 	public Producer(String bootstarpServices, String topic, String... args){
 		if (null != args && args.length > 0) {
 			for (int i = 0; i < args.length; i++) {
 				if (i == 0) {
-					this.clientId = args[i];
-				}
-				
-				if (i == 1) {
-					if (args[i] instanceof String) {
-					this.password = args[i];
+					if (args[i] != null) {
+						this.clientId = args[i];
 					}
 				}
 			}
@@ -63,26 +58,35 @@ public class Producer {
 	 * 向kafka发送数据
 	 * 
 	 * @param bootstarpServices
-	 * 		kafka地址和端口，例如：10.10.10.1:9092,10.10.10.2:9092
+	 * 		kafka地址和端口，例如：10.10.10.1:9093,10.10.10.2:9093
 	 * @param topic
 	 * 		kafka topic
 	 * @param SSL
 	 * 		是否启用SSL，默认为false不启用；false：不启用；true：启用
 	 * @param args
-	 * 		动态参数：[0]kafka clientId，数据类型为String，可选，默认为producer;
-	 * 				 [1]证书密码，数据类型为String，可选，如需修改默认密码请携带此参数;
+	 * 		动态参数：[0]kafka clientId，可选，默认为producer,若为null则取默认值;
+	 * 				 [1]证书密码，可选，如需修改默认密码请携带此参数,若为null则取默认值;
+	 * 				 [2]秘钥库路径，可选，默认值为/opt/cyancloud/component/proxy/client.truststore.jks，如需修改默认秘钥库路径请携带此参数,若为null则取默认值;
 	 * 				
 	 */
 	public Producer(String bootstarpServices, String topic, boolean SSL, String... args){
 		if (null != args && args.length > 0) {
 			for (int i = 0; i < args.length; i++) {
 				if (i == 0) {
-					this.clientId = args[i];
+					if (args[i] != null) {
+						this.clientId = args[i];
+					}
 				}
 				
 				if (i == 1) {
-					if (args[i] instanceof String) {
-					this.password = args[i];
+					if (args[i] != null) {
+						this.password = args[i];
+					}
+				}
+				
+				if (i == 2) {
+					if (args[i] != null) {
+						this.certPath = args[i];
 					}
 				}
 			}
